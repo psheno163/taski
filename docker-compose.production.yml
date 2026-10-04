@@ -25,7 +25,13 @@ services:
   gateway:
     image: kolos163/taski_gateway  # Качаем с Docker Hub
     env_file: .env
+    depends_on:
+      db:
+        condition: service_started
+      backend:
+        condition: service_started
     volumes:
       - static_volume:/staticfiles/
     ports:
       - 8000:80
+    restart: unless-stopped
